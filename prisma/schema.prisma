@@ -19,9 +19,10 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  company       Boolean   @default(false) // user can be a company or regular user searching job
   accounts      Account[]
   sessions      Session[]
-
+  Job           Job[]
 }
 
 model VerificationToken {
@@ -61,3 +62,14 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Job {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  title       String?
+  description String?
+  salary      String?
+  location    String?
+  published   Boolean  @default(true)
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
+}
