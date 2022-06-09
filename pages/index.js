@@ -70,11 +70,18 @@ export default function Home({jobs, user}) {
 
 
 export async function getServerSideProps(context) {
-    const session = await getSession(context)
 
     let jobs = await getJobs(prisma)
     jobs = JSON.parse(JSON.stringify(jobs))
 
+    const session = await getSession(context)
+    if(!session){
+      return{
+        props: {
+          jobs,
+        }
+      }
+    }
     let user = await getUser(session.user.id, prisma)
     user = JSON.parse(JSON.stringify(user))
 
