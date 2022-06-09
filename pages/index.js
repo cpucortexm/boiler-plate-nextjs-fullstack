@@ -3,6 +3,7 @@ import { getJobs } from 'lib/data.js'
 import Jobs from 'components/Jobs'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 // iterate on the jobs array and print the jobs details:
 // create a job component
@@ -21,10 +22,11 @@ export default function Home({jobs}) {
         <h2 className='mb-10 text-4xl font-bold'>Find a job!</h2>
       </div>
       {!session && (
-        <a className='border px-8 py-2 mt-5 font-bold rounded-full bg-black text-white border-black '
-          href='/api/auth/signin'>
+        <Link href="/api/auth/signin">
+         <a className='border px-8 py-2 mt-5 font-bold rounded-full bg-black text-white border-black '>
           login
         </a>
+        </Link>
       )}
 
       <Jobs jobs={jobs}/>
