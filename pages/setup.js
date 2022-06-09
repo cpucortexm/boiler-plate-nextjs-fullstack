@@ -65,7 +65,7 @@ export default function Setup() {
 
         <div className='flex-1 mb-5'>
           <div className='flex-1 mb-5'>
-            Check this box if you're a company and you want to post jobs
+            { "Check this box if you're a company and you want to post jobs" }
           </div>
           <input
             type='checkbox'
