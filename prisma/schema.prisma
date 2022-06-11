@@ -11,18 +11,19 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?   @unique
-  username      String?   @unique
+  email         String?       @unique
+  username      String?       @unique
   emailVerified DateTime?
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  company       Boolean   @default(false) // user can be a company or regular user searching job
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  company       Boolean       @default(false) // user can be a company or regular user searching job
   accounts      Account[]
   sessions      Session[]
   Job           Job[]
+  applications  Application[]
 }
 
 model VerificationToken {
@@ -63,13 +64,23 @@ model Session {
 }
 
 model Job {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
   title       String?
   description String?
   salary      String?
   location    String?
-  published   Boolean  @default(true)
-  author      User     @relation(fields: [authorId], references: [id])
+  published   Boolean       @default(true)
+  author      User          @relation(fields: [authorId], references: [id])
+  authorId    String
+  Application Application[]
+}
+
+model Application {
+  id          Int    @id @default(autoincrement())
+  coverletter String
+  job         Job    @relation(fields: [jobId], references: [id])
+  jobId       Int
+  author      User   @relation(fields: [authorId], references: [id])
   authorId    String
 }
