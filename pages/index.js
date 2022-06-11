@@ -41,11 +41,13 @@ export default function Home({jobs, user}) {
           </p>
           {user.company ? (
             <>
+            <Link href={`/new`}>
               <button
                 className='border px-8 py-2 mt-5 font-bold rounded-full bg-black text-white border-black '
               >
                 click here to post a new job
               </button>
+            </Link>
               <button
                 className='ml-5 border px-8 py-2 mt-5 font-bold rounded-full bg-black text-white border-black '
               >
