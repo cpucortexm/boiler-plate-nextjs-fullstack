@@ -71,7 +71,7 @@ export default function Dashboard({jobs, user, applications}) {
                 <>
                 {applications.map((application) => {
                     return (
-                    <div className='mb-4 mt-20 flex justify-center'>
+                    <div key={application.job.id} className='mb-4 mt-20 flex justify-center'>
                         <div className='pl-16 pr-16 -mt-6 w-1/2'>
                         <Link href={`/job/${application.job.id}`}>
                             <a className='text-xl font-bold underline'>
