@@ -5,7 +5,8 @@ import prisma from 'lib/prisma'
 import { getSession } from 'next-auth/react'
 
 export default async function handler(req, res) {
-    if (req.method !== 'POST') {
+    // any request that’s not either POST or PUT is rejected.
+    if (req.method !== 'POST' && req.method !== 'PUT') {
         return res.status(501).end()
     }
 
@@ -56,6 +57,46 @@ export default async function handler(req, res) {
                 },
             })
         res.status(200).end()
+    }
+
+    //  we fetch the job data from Prisma
+    if (req.method === 'PUT') {
+        const job = await prisma.job.findUnique({
+            where: {
+            id: parseInt(req.body.id),
+            },
+        })
+
+        //check if the job author is equal 
+        // to the current user id, which we get from the session.
+        if (job.authorId !== user.id) {
+            res.status(401).json({ message: 'Not authorized to edit' })
+        }
+        // update the published state based on the task that was sent,
+        //  and we send the response back:
+        if (req.body.task === 'publish') {
+            await prisma.job.update({
+            where: {
+                id: parseInt(req.body.id),
+            },
+            data: {
+                published: true,
+            },
+            })
+        }
+
+        if (req.body.task === 'unpublish') {
+            await prisma.job.update({
+            where: {
+                id: parseInt(req.body.id),
+            },
+            data: {
+                published: false,
+            },
+            })
+        }
+        res.status(200).end()
+        return
     }
 
 }
